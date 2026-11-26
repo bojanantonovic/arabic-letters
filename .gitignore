@@ -46,3 +46,6 @@ Thumbs.db
 # Python-Zwischendateien des Datengenerators
 __pycache__/
 *.pyc
+
+# Claude Code
+.claude/
