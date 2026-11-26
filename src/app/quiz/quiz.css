@@ -1,0 +1,267 @@
+/* Das Aussehen folgt den Büchern: heller Grund, Serifenschrift, jeder
+   Buchstabe in seiner Farbe, die Vokalzeichen grau, Deutsch in Blau. */
+
+.karte {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 0 1rem 3rem;
+}
+
+.kopf {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--linie);
+  padding-bottom: 0.7rem;
+}
+
+.steuerung {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.umfang {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.umfang button {
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--linie);
+  background: #fff;
+  color: var(--grau);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.umfang button:hover {
+  border-color: var(--grau);
+}
+
+.umfang button.an {
+  background: var(--deutsch);
+  border-color: var(--deutsch);
+  color: #fff;
+}
+
+.zaehler {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--grau);
+  display: flex;
+  gap: 0.8rem;
+}
+
+.zaehler .quote {
+  font-variant-numeric: tabular-nums;
+}
+.zaehler .serie {
+  color: var(--deutsch);
+}
+
+.buehne {
+  text-align: center;
+  padding: 1rem 0 0.2rem;
+}
+
+.glyphe {
+  font-family: var(--arabisch);
+  font-size: clamp(9rem, 36vw, 15rem);
+  /* knapp, sonst steht das Zeichen in einem Feld voller Luft - aber nicht
+     zu knapp, sonst wird das Fatha oben abgeschnitten */
+  line-height: 1.25;
+  margin: 0;
+  padding-top: 0.12em;
+  min-height: 1.5em;
+}
+
+.aufgabe {
+  margin: 4.4rem 0 0;
+  color: var(--grau);
+  font-size: 0.95rem;
+}
+
+.optionen {
+  list-style: none;
+  margin: 1.4rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+  /* schmal zwei nebeneinander, breit alle fünf in einer Reihe - nicht
+     vier und einer, das sieht nach Fehler aus */
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (min-width: 34rem) {
+  .optionen {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.option {
+  width: 100%;
+  font: inherit;
+  font-size: 1.25rem;
+  padding: 0.7rem 0.5rem;
+  border: 1px solid var(--linie);
+  border-radius: 0.4rem;
+  background: #fff;
+  cursor: pointer;
+  transition:
+    background 0.12s,
+    border-color 0.12s;
+}
+
+.option:hover:not(:disabled) {
+  border-color: var(--deutsch);
+  background: #f6f9fd;
+}
+
+.option:disabled {
+  cursor: default;
+}
+
+.option.richtig {
+  border-color: #2f7d32;
+  background: #eef7ee;
+  color: #1e5b21;
+}
+
+.option.falsch {
+  border-color: #a8322b;
+  background: #fbefee;
+  color: #8d2a24;
+}
+
+.option.blass {
+  opacity: 0.45;
+}
+
+.urteil {
+  margin-top: 1.4rem;
+  padding: 0.9rem 1rem;
+  border-radius: 0.4rem;
+  background: #f4f4f4;
+  border-left: 4px solid var(--grau);
+}
+
+.urteil.ja {
+  border-left-color: #2f7d32;
+}
+.urteil.nein {
+  border-left-color: #a8322b;
+}
+
+.spruch {
+  margin: 0 0 0.4rem;
+  font-weight: bold;
+}
+
+.erklaerung {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin: 0 0 0.9rem;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.erklaerung .zeichen {
+  font-family: var(--arabisch);
+  font-size: 3.4em;
+  line-height: 1.5;
+  flex: none;
+}
+
+.weiter {
+  font: inherit;
+  padding: 0.5rem 1.4rem;
+  border: none;
+  border-radius: 0.3rem;
+  background: var(--deutsch);
+  color: #fff;
+  cursor: pointer;
+}
+
+.weiter:hover {
+  background: #0f2f5c;
+}
+
+.fuss {
+  margin-top: 1.2rem;
+  font-size: 0.85rem;
+  color: var(--grau);
+}
+
+.link {
+  font: inherit;
+  font-size: inherit;
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--deutsch);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .option {
+    transition: none;
+  }
+}
+
+.auswertung {
+  padding: 1.5rem 0 0.5rem;
+}
+
+.auswertung h2 {
+  font-size: 1.3rem;
+  margin: 0 0 0.4rem;
+}
+
+.fehlerfrei {
+  color: #1e5b21;
+  font-weight: bold;
+}
+
+.fehlerliste {
+  list-style: none;
+  margin: 0 0 1.4rem;
+  padding: 0;
+  display: grid;
+  gap: 0.3rem;
+}
+
+.fehlerliste li {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.2rem 0.8rem;
+  border: 1px solid var(--linie);
+  border-radius: 0.4rem;
+}
+
+.fehlerliste .zeichen {
+  font-family: var(--arabisch);
+  font-size: 3rem;
+  line-height: 1.5;
+  width: 4rem;
+  text-align: center;
+}
+
+.fehlerliste .fname {
+  flex: 1;
+  font-size: 1.1rem;
+}
+
+.fehlerliste .anzahl {
+  font-weight: bold;
+  color: #8d2a24;
+  font-variant-numeric: tabular-nums;
+}

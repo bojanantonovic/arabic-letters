@@ -1,0 +1,41 @@
+/* Amiri, eine Naskh-Schrift unter der SIL Open Font License. Sie liegt
+   als npm-Paket im Projekt, nicht bei Google: so baut das Projekt auch
+   ohne Netz, und beim Üben wird nichts nach aussen gemeldet. */
+@import '@fontsource/amiri/arabic-400.css';
+@import '@fontsource/amiri/arabic-700.css';
+
+/* Die Farben und die Schrift der Arabisch-Bücher: heller Grund,
+   Serifenschrift, Deutsch in Blau, Umschrift und Nebensachen in Grau.
+   Die Farben der einzelnen Buchstaben stehen nicht hier, sondern in
+   src/app/data/letters.ts - sie kommen aus dem Buch selbst. */
+
+:root {
+  --grund: #ffffff;
+  --text: #1a1a1a;
+  --grau: #6b6b6b;
+  --linie: #cccccc;
+  --deutsch: #16417a;
+  --arabisch: 'Amiri', 'Noto Naskh Arabic', 'Scheherazade New', 'Traditional Arabic', 'Geeza Pro', serif;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--grund);
+  color: var(--text);
+  font-family: 'Liberation Serif', 'Times New Roman', Georgia, serif;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--deutsch);
+  outline-offset: 2px;
+}

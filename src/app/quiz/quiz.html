@@ -1,0 +1,117 @@
+<section class="karte">
+  <div class="kopf">
+    <div class="steuerung">
+      <div class="umfang" role="group" aria-label="Umfang der Aufgaben">
+        <button type="button" [class.an]="umfang() === 'nackt'" (click)="setzeUmfang('nackt')">
+          nur Buchstaben
+        </button>
+        <button type="button" [class.an]="umfang() === 'kurz'" (click)="setzeUmfang('kurz')">
+          mit kurzem Vokal
+        </button>
+        <button type="button" [class.an]="umfang() === 'alle'" (click)="setzeUmfang('alle')">
+          alle Zeichen
+        </button>
+      </div>
+      <div class="umfang" role="group" aria-label="Stellung im Wort">
+        @for (p of positionen; track p.wert) {
+          <button type="button" [class.an]="position() === p.wert" (click)="setzePosition(p.wert)">
+            {{ p.name }}
+          </button>
+        }
+      </div>
+    </div>
+    <p class="zaehler">
+      <span
+        >Frage {{ auswertung() ? rundenlaenge : runde() + (fertig() ? 0 : 1) }} /
+        {{ rundenlaenge }}</span
+      >
+      <span>{{ richtige() }} von {{ gesamt() }}</span>
+      @if (gesamt() > 0) {
+        <span class="quote">{{ quote() }}&nbsp;%</span>
+      }
+      @if (serie() > 1) {
+        <span class="serie">{{ serie() }} in Folge</span>
+      }
+    </p>
+  </div>
+
+  @if (auswertung()) {
+    <div class="auswertung">
+      <h2>Runde beendet</h2>
+      <p>{{ rundeRichtig() }} von {{ rundenlaenge }} richtig.</p>
+      @if (fehlerGeordnet().length === 0) {
+        <p class="fehlerfrei">Fehlerfrei — kein Buchstabe falsch gewählt.</p>
+      } @else {
+        <p>Diese Buchstaben wurden falsch gewählt:</p>
+        <ul class="fehlerliste">
+          @for (f of fehlerGeordnet(); track f.letter) {
+            <li>
+              <span class="zeichen" dir="rtl" lang="ar" [style.color]="f.color">{{
+                f.letter
+              }}</span>
+              <span class="fname">{{ f.name }}</span>
+              <span class="anzahl">{{ f.anzahl }}&times;</span>
+            </li>
+          }
+        </ul>
+      }
+      <button type="button" class="weiter" (click)="neueRunde()">Neue Runde</button>
+    </div>
+  } @else {
+    <div class="buehne">
+      <p class="glyphe" dir="rtl" lang="ar">
+        @for (p of glyphen(); track $index) {
+          <span [style.color]="p.c">{{ p.t }}</span>
+        }
+      </p>
+      <p class="aufgabe">Wie wird das ausgesprochen?</p>
+    </div>
+
+    <ul class="optionen">
+      @for (o of aktuell().optionen; track spur($index, o); let i = $index) {
+        <li>
+          <button
+            type="button"
+            class="option"
+            [class]="stand(i)"
+            [disabled]="fertig()"
+            (click)="waehle(i)"
+          >
+            <b>{{ teile(o)[0] }}</b>{{ teile(o)[1] }}
+          </button>
+        </li>
+      }
+    </ul>
+
+    @if (fertig()) {
+      <div class="urteil" [class.ja]="getroffen()" [class.nein]="!getroffen()">
+        @if (getroffen()) {
+          <p class="spruch">Richtig.</p>
+        } @else {
+          <p class="spruch">
+            Nicht ganz — es ist <b>{{ item.reading }}</b>.
+          </p>
+        }
+        <p class="erklaerung">
+          <span class="zeichen" dir="rtl" lang="ar" [style.color]="item.color">{{
+            item.letter
+          }}</span>
+          <span>
+            <b>{{ item.name }}</b>, {{ item.variantLabel }} —
+            <span [innerHTML]="item.hint"></span>
+          </span>
+        </p>
+        <button type="button" class="weiter" (click)="weiter()">
+          {{ runde() >= rundenlaenge ? 'Auswertung' : 'Weiter' }}
+        </button>
+      </div>
+    }
+  }
+
+  @if (gesamt() > 0) {
+    <p class="fuss">
+      längste Serie: {{ besteSerie() }} ·
+      <button type="button" class="link" (click)="zurueck()">zurücksetzen</button>
+    </p>
+  }
+</section>

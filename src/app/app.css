@@ -1,0 +1,28 @@
+header {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 2rem 1rem 0.5rem;
+}
+
+header h1 {
+  font-size: 1.4rem;
+  margin: 0;
+}
+
+header p {
+  margin: 0.2rem 0 0;
+  color: var(--grau);
+  font-style: italic;
+}
+
+footer {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 0 1rem 2.5rem;
+  border-top: 1px solid var(--linie);
+}
+
+footer p {
+  font-size: 0.8rem;
+  color: var(--grau);
+}
