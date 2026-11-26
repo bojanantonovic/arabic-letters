@@ -1,6 +1,8 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Item } from '../data/letters';
 import { auswahl, Frage, frage, inPosition, Position, Umfang } from '../data/quiz';
+import { lautHinweis, umschrift, variantenName } from '../i18n/inhalt';
+import { Uebersetzung } from '../i18n/uebersetzung';
 
 /** Fragen pro Runde; danach folgt die Auswertung. */
 const RUNDENLAENGE = 20;
@@ -19,13 +21,12 @@ interface Fehler {
   styleUrl: './quiz.css',
 })
 export class Quiz {
+  private readonly uebersetzung = inject(Uebersetzung);
+  protected readonly t = this.uebersetzung.t;
+
+  protected readonly umfaenge: Umfang[] = ['nackt', 'kurz', 'alle'];
   protected readonly umfang = signal<Umfang>('kurz');
-  protected readonly positionen: { wert: Position; name: string }[] = [
-    { wert: 'alleine', name: 'Alleine' },
-    { wert: 'anfang', name: 'Anfang' },
-    { wert: 'mitte', name: 'Mitte' },
-    { wert: 'ende', name: 'Ende' },
-  ];
+  protected readonly positionen: Position[] = ['alleine', 'anfang', 'mitte', 'ende'];
   protected readonly position = signal<Position>('alleine');
   protected readonly pool = computed(() => auswahl(this.umfang(), this.position()));
 
@@ -142,8 +143,21 @@ export class Quiz {
 
   /** Teilt eine Aussprache in den Mitlaut vorn (fett) und den Rest. */
   protected teile(o: string): [string, string] {
-    const k = o.match(/^[^aiuäīū]+/)?.[0] ?? '';
-    return [k, o.slice(k.length)];
+    const text = this.umschrift(o);
+    const k = text.match(/^[^aiuäāīū]+/)?.[0] ?? '';
+    return [k, text.slice(k.length)];
+  }
+
+  protected umschrift(text: string): string {
+    return umschrift(text, this.uebersetzung.sprache());
+  }
+
+  protected variantenName(item: Item): string {
+    return variantenName(item, this.uebersetzung.sprache());
+  }
+
+  protected lautHinweis(item: Item): string {
+    return lautHinweis(item, this.uebersetzung.sprache());
   }
 
   protected spur(_: number, o: string): string {

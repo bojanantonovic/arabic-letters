@@ -1,13 +1,25 @@
 <header>
-  <h1>Die arabischen Buchstaben</h1>
-  <p>Ein Buchstabe — wie wird er ausgesprochen?</p>
+  <div class="sprachen" role="group" [attr.aria-label]="t().sprachwahl">
+    @for (s of sprachen; track s.wert) {
+      <button
+        type="button"
+        [attr.lang]="s.wert"
+        [attr.aria-pressed]="uebersetzung.sprache() === s.wert"
+        (click)="uebersetzung.waehle(s.wert)"
+      >
+        {{ s.name }}
+      </button>
+    }
+  </div>
+  <h1>{{ t().ueberschrift }}</h1>
+  <p>{{ t().untertitel }}</p>
 </header>
 
 <app-quiz />
 
 <footer>
   <p>
-    Farben, Umschrift und Lautangaben stammen aus dem Buch
-    <i>Die arabischen Buchstaben</i>; jeder Buchstabe hat hier dieselbe Farbe wie dort.
+    {{ t().quelleVor }}
+    <i lang="de">{{ buchtitel }}</i>{{ t().quelleNach }}
   </p>
 </footer>

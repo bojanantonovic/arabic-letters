@@ -4,6 +4,8 @@ Ein Quiz für die **allein stehenden arabischen Buchstaben**. Es zeigt einen
 Buchstaben — wahlweise mit einem Vokalzeichen — und lässt aus fünf
 Aussprachen wählen.
 
+Die Oberfläche gibt es auf **Deutsch und Englisch**.
+
 Angular 22, keine weiteren Abhängigkeiten ausser der Schrift.
 
 ## Starten
@@ -17,7 +19,7 @@ In WebStorm liegen die Startkonfigurationen **ng serve**, **ng test** und
 **ng build** schon bereit; das Projekt lässt sich direkt öffnen.
 
 ```bash
-npm test           # 13 Tests
+npm test           # 31 Tests
 npm run build      # Bündel nach dist/
 ```
 
@@ -48,6 +50,26 @@ Neu erzeugen, wenn sich das Buch ändert:
 python3 tools/gen_letters.py /pfad/zu/Die_arabischen_Buchstaben.epub \
         src/app/data/letters.ts
 ```
+
+## Sprachen
+
+Umgeschaltet wird oben rechts, ohne Neuladen; der Stand der Runde bleibt.
+Beim ersten Besuch gilt die Browsersprache (sonst Englisch), danach die
+zuletzt gewählte.
+
+```
+src/app/i18n/texte.ts          Texte der Oberfläche
+src/app/i18n/inhalt.ts         englische Lautbeschreibungen und Beschriftungen
+src/app/i18n/uebersetzung.ts   gewählte Sprache
+```
+
+Das Buch gibt die deutschen Inhalte vor. Die englischen werden in
+`inhalt.ts` von Hand gepflegt: ändert sich dort ein Laut im Buch, muss er
+auch hier nachgeführt werden. Im Englischen wird das lange a als ā statt ä
+umschrieben.
+
+Eine weitere Sprache braucht einen Eintrag in `Sprache` und `TEXTE`, ihre
+Inhalte in `inhalt.ts` und einen Knopf in `app.ts`.
 
 ## Wie die falschen Antworten gewählt werden
 
@@ -85,6 +107,7 @@ src/app/
   data/letters.ts     erzeugt: 351 Aufgaben mit Farbe, Lesung, Lautangabe
   data/quiz.ts        Auswahl der Frage und der vier Ablenker
   data/quiz.spec.ts   Tests dazu
+  i18n/               Deutsch und Englisch
   quiz/               die Komponente
 tools/gen_letters.py  erzeugt letters.ts aus dem Buch
 ```

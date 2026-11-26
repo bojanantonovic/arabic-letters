@@ -26,3 +26,31 @@ footer p {
   font-size: 0.8rem;
   color: var(--grau);
 }
+
+.sprachen {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.3rem;
+  margin-bottom: 0.6rem;
+}
+
+.sprachen button {
+  font: inherit;
+  font-size: 0.8rem;
+  padding: 0.15rem 0.6rem;
+  border: 1px solid var(--linie);
+  background: #fff;
+  color: var(--grau);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.sprachen button:hover {
+  border-color: var(--grau);
+}
+
+.sprachen button[aria-pressed='true'] {
+  background: var(--deutsch);
+  border-color: var(--deutsch);
+  color: #fff;
+}

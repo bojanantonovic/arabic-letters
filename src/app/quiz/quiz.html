@@ -1,61 +1,56 @@
 <section class="karte">
   <div class="kopf">
     <div class="steuerung">
-      <div class="umfang" role="group" aria-label="Umfang der Aufgaben">
-        <button type="button" [class.an]="umfang() === 'nackt'" (click)="setzeUmfang('nackt')">
-          nur Buchstaben
-        </button>
-        <button type="button" [class.an]="umfang() === 'kurz'" (click)="setzeUmfang('kurz')">
-          mit kurzem Vokal
-        </button>
-        <button type="button" [class.an]="umfang() === 'alle'" (click)="setzeUmfang('alle')">
-          alle Zeichen
-        </button>
+      <div class="umfang" role="group" [attr.aria-label]="t().umfangGruppe">
+        @for (u of umfaenge; track u) {
+          <button type="button" [class.an]="umfang() === u" (click)="setzeUmfang(u)">
+            {{ t().umfaenge[u] }}
+          </button>
+        }
       </div>
-      <div class="umfang" role="group" aria-label="Stellung im Wort">
-        @for (p of positionen; track p.wert) {
-          <button type="button" [class.an]="position() === p.wert" (click)="setzePosition(p.wert)">
-            {{ p.name }}
+      <div class="umfang" role="group" [attr.aria-label]="t().positionGruppe">
+        @for (p of positionen; track p) {
+          <button type="button" [class.an]="position() === p" (click)="setzePosition(p)">
+            {{ t().positionen[p] }}
           </button>
         }
       </div>
     </div>
     <p class="zaehler">
-      <span
-        >Frage {{ auswertung() ? rundenlaenge : runde() + (fertig() ? 0 : 1) }} /
-        {{ rundenlaenge }}</span
-      >
-      <span>{{ richtige() }} von {{ gesamt() }}</span>
+      <span>{{
+        t().frageNummer(auswertung() ? rundenlaenge : runde() + (fertig() ? 0 : 1), rundenlaenge)
+      }}</span>
+      <span>{{ t().punktestand(richtige(), gesamt()) }}</span>
       @if (gesamt() > 0) {
-        <span class="quote">{{ quote() }}&nbsp;%</span>
+        <span class="quote">{{ t().prozent(quote()) }}</span>
       }
       @if (serie() > 1) {
-        <span class="serie">{{ serie() }} in Folge</span>
+        <span class="serie">{{ t().inFolge(serie()) }}</span>
       }
     </p>
   </div>
 
   @if (auswertung()) {
     <div class="auswertung">
-      <h2>Runde beendet</h2>
-      <p>{{ rundeRichtig() }} von {{ rundenlaenge }} richtig.</p>
+      <h2>{{ t().rundeBeendet }}</h2>
+      <p>{{ t().rundenergebnis(rundeRichtig(), rundenlaenge) }}</p>
       @if (fehlerGeordnet().length === 0) {
-        <p class="fehlerfrei">Fehlerfrei — kein Buchstabe falsch gewählt.</p>
+        <p class="fehlerfrei">{{ t().fehlerfrei }}</p>
       } @else {
-        <p>Diese Buchstaben wurden falsch gewählt:</p>
+        <p>{{ t().falschGewaehlt }}</p>
         <ul class="fehlerliste">
           @for (f of fehlerGeordnet(); track f.letter) {
             <li>
               <span class="zeichen" dir="rtl" lang="ar" [style.color]="f.color">{{
                 f.letter
               }}</span>
-              <span class="fname">{{ f.name }}</span>
+              <span class="fname">{{ umschrift(f.name) }}</span>
               <span class="anzahl">{{ f.anzahl }}&times;</span>
             </li>
           }
         </ul>
       }
-      <button type="button" class="weiter" (click)="neueRunde()">Neue Runde</button>
+      <button type="button" class="weiter" (click)="neueRunde()">{{ t().neueRunde }}</button>
     </div>
   } @else {
     <div class="buehne">
@@ -64,7 +59,7 @@
           <span [style.color]="p.c">{{ p.t }}</span>
         }
       </p>
-      <p class="aufgabe">Wie wird das ausgesprochen?</p>
+      <p class="aufgabe">{{ t().aufgabe }}</p>
     </div>
 
     <ul class="optionen">
@@ -86,10 +81,10 @@
     @if (fertig()) {
       <div class="urteil" [class.ja]="getroffen()" [class.nein]="!getroffen()">
         @if (getroffen()) {
-          <p class="spruch">Richtig.</p>
+          <p class="spruch">{{ t().richtig }}</p>
         } @else {
           <p class="spruch">
-            Nicht ganz — es ist <b>{{ item.reading }}</b>.
+            {{ t().falsch }} <b>{{ umschrift(item.reading) }}</b>.
           </p>
         }
         <p class="erklaerung">
@@ -97,12 +92,12 @@
             item.letter
           }}</span>
           <span>
-            <b>{{ item.name }}</b>, {{ item.variantLabel }} —
-            <span [innerHTML]="item.hint"></span>
+            <b>{{ umschrift(item.name) }}</b>, {{ variantenName(item) }} —
+            <span [innerHTML]="lautHinweis(item)"></span>
           </span>
         </p>
         <button type="button" class="weiter" (click)="weiter()">
-          {{ runde() >= rundenlaenge ? 'Auswertung' : 'Weiter' }}
+          {{ runde() >= rundenlaenge ? t().zurAuswertung : t().weiter }}
         </button>
       </div>
     }
@@ -110,8 +105,8 @@
 
   @if (gesamt() > 0) {
     <p class="fuss">
-      längste Serie: {{ besteSerie() }} ·
-      <button type="button" class="link" (click)="zurueck()">zurücksetzen</button>
+      {{ t().laengsteSerie(besteSerie()) }} ·
+      <button type="button" class="link" (click)="zurueck()">{{ t().zuruecksetzen }}</button>
     </p>
   }
 </section>
