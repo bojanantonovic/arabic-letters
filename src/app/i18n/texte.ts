@@ -11,9 +11,6 @@ export interface Texte {
   ueberschrift: string;
   untertitel: string;
   sprachwahl: string;
-  /** Fusszeile: der Text vor und nach dem Buchtitel */
-  quelleVor: string;
-  quelleNach: string;
 
   umfangGruppe: string;
   umfaenge: Record<Umfang, string>;
@@ -47,8 +44,6 @@ const DE: Texte = {
   ueberschrift: 'Die arabischen Buchstaben',
   untertitel: 'Ein Buchstabe — wie wird er ausgesprochen?',
   sprachwahl: 'Sprache',
-  quelleVor: 'Farben, Umschrift und Lautangaben stammen aus dem Buch',
-  quelleNach: '; jeder Buchstabe hat hier dieselbe Farbe wie dort.',
 
   umfangGruppe: 'Umfang der Aufgaben',
   umfaenge: { nackt: 'nur Buchstaben', kurz: 'mit kurzem Vokal', alle: 'alle Zeichen' },
@@ -81,8 +76,6 @@ const EN: Texte = {
   ueberschrift: 'The Arabic Letters',
   untertitel: 'One letter — how is it pronounced?',
   sprachwahl: 'Language',
-  quelleVor: 'Colours, transliteration and sound descriptions are based on the German book',
-  quelleNach: '; each letter has the same colour here as there.',
 
   umfangGruppe: 'Range of questions',
   umfaenge: { nackt: 'letters only', kurz: 'with short vowel', alle: 'all marks' },

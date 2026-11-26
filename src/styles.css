@@ -15,6 +15,8 @@
   --grau: #6b6b6b;
   --linie: #cccccc;
   --deutsch: #16417a;
+  /* Apples Mindestmass für alles, was man mit dem Finger trifft */
+  --tippziel: 44px;
   --arabisch: 'Amiri', 'Noto Naskh Arabic', 'Scheherazade New', 'Traditional Arabic', 'Geeza Pro', serif;
 }
 
@@ -32,6 +34,20 @@ body {
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+/* Orientierung: iPhone Air (420 x 912 Punkte) ist die Grundgrösse. Auf
+   grossen Flächen wie dem iPad Pro 12,9" (1024 x 1366) wächst die
+   Grundschrift, und mit ihr alles, was in rem bemessen ist. */
+@media (min-width: 48rem) and (min-height: 54rem) {
+  html {
+    font-size: 137.5%;
+  }
+}
+
+button {
+  /* schnelles Tippen soll nicht zoomen */
+  touch-action: manipulation;
 }
 
 button:focus-visible,

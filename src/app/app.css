@@ -1,43 +1,36 @@
+/* Titel und Sprachwahl teilen sich eine Zeile, solange der Platz reicht. */
 header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 0.5rem;
   max-width: 44rem;
   margin: 0 auto;
-  padding: 2rem 1rem 0.5rem;
+  padding: 0.5rem 1rem;
 }
 
 header h1 {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   margin: 0;
 }
 
 header p {
-  margin: 0.2rem 0 0;
+  flex-basis: 100%;
+  margin: 0;
   color: var(--grau);
   font-style: italic;
 }
 
-footer {
-  max-width: 44rem;
-  margin: 0 auto;
-  padding: 0 1rem 2.5rem;
-  border-top: 1px solid var(--linie);
-}
-
-footer p {
-  font-size: 0.8rem;
-  color: var(--grau);
-}
-
 .sprachen {
   display: flex;
-  justify-content: flex-end;
   gap: 0.3rem;
-  margin-bottom: 0.6rem;
+  margin-left: auto;
 }
 
 .sprachen button {
   font: inherit;
   font-size: 0.8rem;
-  padding: 0.15rem 0.6rem;
+  padding: 0.15rem 0.5rem;
   border: 1px solid var(--linie);
   background: #fff;
   color: var(--grau);
@@ -45,12 +38,48 @@ footer p {
   cursor: pointer;
 }
 
-.sprachen button:hover {
-  border-color: var(--grau);
+@media (hover: hover) {
+  .sprachen button:hover {
+    border-color: var(--grau);
+  }
 }
 
 .sprachen button[aria-pressed='true'] {
   background: var(--deutsch);
   border-color: var(--deutsch);
   color: #fff;
+}
+
+/* Auf dem Telefon steht dieselbe Frage schon unter dem Zeichen. */
+@media (max-width: 33.9375rem) {
+  header p {
+    display: none;
+  }
+}
+
+@media (min-width: 34rem) {
+  header {
+    padding-top: 1.25rem;
+  }
+
+  header h1 {
+    font-size: 1.4rem;
+  }
+}
+
+@media (pointer: coarse) {
+  .sprachen button {
+    min-height: var(--tippziel);
+  }
+}
+
+/* Telefon im Querformat: jede Zeile Höhe zählt. */
+@media (orientation: landscape) and (max-height: 30rem) {
+  header {
+    padding-block: 0.25rem;
+  }
+
+  header p {
+    display: none;
+  }
 }

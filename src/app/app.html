@@ -1,4 +1,5 @@
 <header>
+  <h1>{{ t().ueberschrift }}</h1>
   <div class="sprachen" role="group" [attr.aria-label]="t().sprachwahl">
     @for (s of sprachen; track s.wert) {
       <button
@@ -11,15 +12,7 @@
       </button>
     }
   </div>
-  <h1>{{ t().ueberschrift }}</h1>
   <p>{{ t().untertitel }}</p>
 </header>
 
 <app-quiz />
-
-<footer>
-  <p>
-    {{ t().quelleVor }}
-    <i lang="de">{{ buchtitel }}</i>{{ t().quelleNach }}
-  </p>
-</footer>

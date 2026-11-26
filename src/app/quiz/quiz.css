@@ -4,7 +4,7 @@
 .karte {
   max-width: 44rem;
   margin: 0 auto;
-  padding: 0 1rem 3rem;
+  padding: 0 1rem 1.5rem;
 }
 
 .kopf {
@@ -14,7 +14,7 @@
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid var(--linie);
-  padding-bottom: 0.7rem;
+  padding-bottom: 0.5rem;
 }
 
 .steuerung {
@@ -40,10 +40,6 @@
   cursor: pointer;
 }
 
-.umfang button:hover {
-  border-color: var(--grau);
-}
-
 .umfang button.an {
   background: var(--deutsch);
   border-color: var(--deutsch);
@@ -67,41 +63,45 @@
 
 .buehne {
   text-align: center;
-  padding: 1rem 0 0.2rem;
+  padding: 0.5rem 0 0;
 }
 
 .glyphe {
   font-family: var(--arabisch);
-  font-size: clamp(9rem, 36vw, 15rem);
+  /* so gross, wie Breite und Höhe es zulassen */
+  font-size: clamp(6.5rem, min(36vw, 15svh), 15rem);
   /* knapp, sonst steht das Zeichen in einem Feld voller Luft - aber nicht
      zu knapp, sonst wird das Fatha oben abgeschnitten */
   line-height: 1.25;
-  margin: 0;
-  padding-top: 0.12em;
-  min-height: 1.5em;
+  /* Amiri ragt über die Zeile hinaus: bis 1,29em über die Grundlinie
+     (Šadda mit Ḍamma) und 0,91em darunter (يٍ). Beides braucht Platz. */
+  margin: 0 0 0.53em;
+  padding-top: 0.42em;
 }
 
 .aufgabe {
-  margin: 4.4rem 0 0;
+  margin: 0;
   color: var(--grau);
   font-size: 0.95rem;
 }
 
 .optionen {
   list-style: none;
-  margin: 1.4rem 0 0;
+  margin: 0.75rem 0 0;
   padding: 0;
   display: grid;
   gap: 0.5rem;
-  /* schmal zwei nebeneinander, breit alle fünf in einer Reihe - nicht
+  /* schmal drei über zwei, breit alle fünf in einer Reihe - nicht
      vier und einer, das sieht nach Fehler aus */
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(6, 1fr);
 }
 
-@media (min-width: 34rem) {
-  .optionen {
-    grid-template-columns: repeat(5, 1fr);
-  }
+.optionen li {
+  grid-column: span 2;
+}
+
+.optionen li:nth-child(n + 4) {
+  grid-column: span 3;
 }
 
 .option {
@@ -118,9 +118,20 @@
     border-color 0.12s;
 }
 
-.option:hover:not(:disabled) {
-  border-color: var(--deutsch);
-  background: #f6f9fd;
+/* nur mit Maus: auf dem Touchscreen bliebe der Zustand nach dem Tippen hängen */
+@media (hover: hover) {
+  .umfang button:not(.an):hover {
+    border-color: var(--grau);
+  }
+
+  .option:hover:not(:disabled) {
+    border-color: var(--deutsch);
+    background: #f6f9fd;
+  }
+
+  .weiter:hover {
+    background: #0f2f5c;
+  }
 }
 
 .option:disabled {
@@ -144,8 +155,8 @@
 }
 
 .urteil {
-  margin-top: 1.4rem;
-  padding: 0.9rem 1rem;
+  margin-top: 0.75rem;
+  padding: 0.6rem 0.8rem;
   border-radius: 0.4rem;
   background: #f4f4f4;
   border-left: 4px solid var(--grau);
@@ -167,19 +178,21 @@
   display: flex;
   align-items: center;
   gap: 0.9rem;
-  margin: 0 0 0.9rem;
+  margin: 0 0 0.5rem;
   font-size: 0.95rem;
   color: #333;
 }
 
 .erklaerung .zeichen {
   font-family: var(--arabisch);
-  font-size: 3.4em;
+  font-size: 2.8em;
   line-height: 1.5;
   flex: none;
 }
 
 .weiter {
+  /* schmal über die ganze Breite, gut mit dem Daumen zu treffen */
+  width: 100%;
   font: inherit;
   padding: 0.5rem 1.4rem;
   border: none;
@@ -187,10 +200,6 @@
   background: var(--deutsch);
   color: #fff;
   cursor: pointer;
-}
-
-.weiter:hover {
-  background: #0f2f5c;
 }
 
 .fuss {
@@ -208,6 +217,87 @@
   color: var(--deutsch);
   text-decoration: underline;
   cursor: pointer;
+}
+
+/* nicht auf dem Telefon im Querformat, dort ist die rechte Spalte schmal */
+@media (min-width: 34rem) and (min-height: 30.0625rem) {
+  .optionen {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .optionen li:nth-child(n) {
+    grid-column: span 1;
+  }
+
+  .weiter {
+    width: auto;
+  }
+}
+
+/* iPad: Höhe ist reichlich da, das Zeichen darf mehr davon haben */
+@media (min-width: 48rem) and (min-height: 54rem) {
+  .glyphe {
+    font-size: clamp(7rem, min(36vw, 17svh), 15rem);
+  }
+}
+
+@media (pointer: coarse) {
+  .umfang button,
+  .weiter {
+    min-height: var(--tippziel);
+  }
+}
+
+/* Telefon im Querformat: Zeichen links, Antworten rechts */
+@media (orientation: landscape) and (max-height: 30rem) {
+  .karte {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    grid-template-rows: auto auto 1fr;
+    column-gap: 1rem;
+    align-items: start;
+  }
+
+  .kopf,
+  .auswertung,
+  .fuss {
+    grid-column: 1 / -1;
+  }
+
+  .steuerung {
+    flex-direction: row;
+    flex-wrap: wrap;
+    column-gap: 1rem;
+  }
+
+  .buehne {
+    grid-area: 2 / 1 / span 2;
+  }
+
+  .glyphe {
+    font-size: clamp(5rem, 24svh, 9rem);
+  }
+
+  .optionen,
+  .urteil {
+    grid-column: 2;
+  }
+
+  /* «Weiter» neben das Urteil, damit es ohne Scrollen erreichbar bleibt */
+  .urteil {
+    display: grid;
+    grid-template-columns: 1fr auto;
+  }
+
+  .erklaerung {
+    grid-area: 2 / 1 / auto / -1;
+    margin: 0;
+  }
+
+  .weiter {
+    grid-area: 1 / 2;
+    width: auto;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
